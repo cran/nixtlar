@@ -20,11 +20,8 @@ df <- nixtlar::electricity
 head(df)
 
 ## -----------------------------------------------------------------------------
-nixtla_client_fitted_values <- nixtla_client_historic(df, id_col = "unique_id", level = c(80,95))
+nixtla_client_fitted_values <- nixtla_client_historic(df, level = c(80,95))
 head(nixtla_client_fitted_values)
-
-## -----------------------------------------------------------------------------
-nixtla_client_plot(df, nixtla_client_fitted_values, id_col = "unique_id", max_insample_length = 200)
 
 ## ----include=FALSE------------------------------------------------------------
 options(original_options)

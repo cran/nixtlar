@@ -21,14 +21,11 @@
 #'   nixtlar::timegpt_plot(df, fcst, h=8, id_col="unique_id")
 #' }
 #'
-nixtla_client_plot <- function(df, fcst=NULL, h=NULL, id_col=NULL, time_col="ds", target_col="y", unique_ids = NULL, max_insample_length=NULL, plot_anomalies=FALSE){
+nixtla_client_plot <- function(df, fcst=NULL, h=NULL, id_col="unique_id", time_col="ds", target_col="y", unique_ids = NULL, max_insample_length=NULL, plot_anomalies=FALSE){
 
-  if(!tsibble::is_tsibble(df) & !is.data.frame(df)){
-    stop("Only tsibbles or data frames are allowed.")
-  }
-
-  if("unique_id" %in% names(df) & is.null(id_col)){
-    message("It seems that there are multiple ids. If so, please specify id_col")
+  # Validate input ----
+  if(!is.data.frame(df) & !inherits(df, "tbl_df") & !inherits(df, "tsibble")){
+    stop("Only data frames, tibbles, and tsibbles are allowed.")
   }
 
   # Select facets ----
@@ -38,59 +35,49 @@ nixtla_client_plot <- function(df, fcst=NULL, h=NULL, id_col=NULL, time_col="ds"
   # Rename columns ----
   names(df)[which(names(df) == time_col)] <- "ds"
   names(df)[which(names(df) == target_col)] <- "y"
-  if(!is.null(id_col)){
-    names(df)[which(names(df) == id_col)] <- "unique_id"
 
+  if(is.null(id_col)){
+    # create unique_id for single series
+    df <- df |>
+      dplyr::mutate(unique_id = "ts_0") |>
+      dplyr::select(c("unique_id", tidyselect::everything()))
+    ids <- "ts_0"
+    nrow <- 1
+    ncol <- 1
+  }else{
+    names(df)[which(names(df) == id_col)] <- "unique_id"
     ids <- unique(df$unique_id)
-    if(length(ids) == 2){ # reshape for better viz
+    if(length(ids) == 2){ # reshape for better vizualization
       nrow <- 2
       ncol <- 1
     }
+  }
 
-    ## Select time series if there are more than 8 ----
-    if(length(ids) > 8){
-      if(!is.null(unique_ids)){
-        ids <- unique_ids[1:min(length(unique_ids), 8)]
-      }else{
-        ids <- sample(unique(df$unique_id), size=8, replace=FALSE)
-      }
-
-      df <- df |>
-        dplyr::filter(.data$unique_id %in% ids)
-
-      if(!is.null(fcst)){
-        fcst <- fcst |>
-          dplyr::filter(.data$unique_id %in% ids)
-      }
+  ## Select time series if there are more than 8 ----
+  if(length(ids) > 8){
+    if(!is.null(unique_ids)){
+      ids <- unique_ids[1:min(length(unique_ids), 8)]
+    }else{
+      ids <- sample(unique(df$unique_id), size=8, replace=FALSE)
     }
 
-  }else{
     df <- df |>
-      dplyr::mutate(unique_id = "") |>
-      dplyr::select(c("unique_id", tidyselect::everything()))
+      dplyr::filter(.data$unique_id %in% ids)
+
+    if(!is.null(fcst)){
+      fcst <- fcst |>
+        dplyr::filter(.data$unique_id %in% ids)
+    }
   }
 
   # Convert dates if necessary ----
-  # ggplot2 requires ds to be Dates while TimeGPT's API requires them to be chr
   cls <- class(df$ds)[1]
-  if(!(cls %in% c("Date", "POSIXt", "POSIXct", "POSIXlt"))){
-
-    if(tsibble::is_tsibble(df)){
-      df_list <- date_conversion(df)
-      df <- df_list$df
-      freq <- df_list$freq
-    }else{
-      freq <- infer_frequency(df)
-    }
-
-    if(is.null(freq)){
-      stop("Can't figure out the frequency of the data. Please convert time_col to Date or POSIXt.")
-    }
-
-    if(freq == "H"){
-      df$ds <- lubridate::ymd_hms(df$ds)
-    }else{
+  if(cls == "character"){
+    nch <- nchar(df$ds[1])
+    if(nch <= 10){
       df$ds <- lubridate::ymd(df$ds)
+    }else{
+      df$ds <- lubridate::ymd_hms(df$ds)
     }
   }
 
@@ -111,10 +98,6 @@ nixtla_client_plot <- function(df, fcst=NULL, h=NULL, id_col=NULL, time_col="ds"
 
   }else{
     # Plot historical values and forecast ----
-    if(!tsibble::is_tsibble(fcst) & !is.data.frame(fcst)){
-      stop("fcst needs to be the output of timegpt_forecast, timegpt_historic, timegpt_anomaly_detection or timegpt_cross_validation.")
-    }
-
     color_vals <- c("#B5838D", "steelblue")
 
     # Rename forecast columns ----
@@ -123,18 +106,11 @@ nixtla_client_plot <- function(df, fcst=NULL, h=NULL, id_col=NULL, time_col="ds"
       names(fcst)[which(names(fcst) == id_col)] <- "unique_id"
     }else{
       fcst <- fcst |>
-        dplyr::mutate(unique_id = "") |>
-        dplyr::select(c("unique_id", everything()))
+        dplyr::mutate(unique_id = "ts_0") |>
+        dplyr::select(c("unique_id", tidyselect::everything()))
     }
 
-    clsf <- class(fcst$ds)[1]
-    if(!(clsf %in% c("Date", "POSIXt", "POSIXct", "POSIXlt"))){
-      if(freq == "H"){
-        fcst$ds <- lubridate::ymd_hms(fcst$ds)
-      }else{
-        fcst$ds <- as.Date(fcst$ds)
-      }
-    }
+    # the values of time_col should already be of class POSIXct
 
     # Check for cross validation output
     cross_validation <- FALSE
@@ -177,7 +153,6 @@ nixtla_client_plot <- function(df, fcst=NULL, h=NULL, id_col=NULL, time_col="ds"
     # Add prediction intervals ----
     levels <- grepl("(lo|hi)", names(fcst))
     if(any(levels)){
-
       # Build data frame with  prediction intervals
       lower <- fcst[,c(which(names(fcst) %in% c("unique_id", "ds")), grep("lo", names(fcst)))]
       upper <- fcst[,c(which(names(fcst) %in% c("unique_id", "ds")), grep("hi", names(fcst)))]
@@ -194,6 +169,34 @@ nixtla_client_plot <- function(df, fcst=NULL, h=NULL, id_col=NULL, time_col="ds"
         ggplot2::geom_ribbon(ggplot2::aes(x=.data$ds, ymin=.data$lower, ymax=.data$upper, group=.data$level, fill=.data$level), alpha=0.5, data=intervals)
     }
 
+    # Add quantiles
+    quantiles <- grepl("-q-", names(fcst))
+    if(any(quantiles)){
+      # Build data frame with quantiles
+      quant <- fcst[,c(which(names(fcst) %in% c("unique_id", "ds")), grep("-q-", names(fcst)))]
+
+      quant_long <- tidyr::pivot_longer(quant, cols=grep("-q-", names(quant)), values_to="value", names_to="variable") |>
+        dplyr::mutate(quantiles =  gsub("^[^-]*-[^-]*-", "", .data$variable))
+
+      num_quantiles <- length(unique(quant_long$quantiles))
+      # Prepare colors for quantiles - max 10
+      qcolors <- c("#755faa", "#3da564", "#dabb35", "#29e2ff","#b5d56d","#9ca5e2", "#d954a0", "#cb4545", "#e45d17","#18392b")
+
+      if(num_quantiles > 10){
+        message("Can't plot more than 10 quantiles at the same time. Selecting 10 at random.")
+        qselect <- sample(unique(quant_long$quantiles), 10, replace = FALSE)
+        quant_long <- quant_long |>
+          dplyr::filter(quantiles %in% qselect)
+        num_quantiles <- 10
+      }
+
+      color_vals <- c(qcolors[1:num_quantiles], color_vals)
+      quant_long$quantiles <- paste0("q-", quant_long$quantiles)
+
+      plot <- plot+
+        ggplot2::geom_line(ggplot2::aes(x=.data$ds, y=.data$value, group=.data$quantiles, color=.data$quantiles), alpha=0.5, data=quant_long)
+    }
+
     # Add anomalies ----
     if(plot_anomalies){
       if(!"anomaly" %in% names(fcst)){
@@ -207,7 +210,8 @@ nixtla_client_plot <- function(df, fcst=NULL, h=NULL, id_col=NULL, time_col="ds"
 
     plot <- plot+
       ggplot2::geom_line(ggplot2::aes(x=.data$ds, y=.data$value, group=.data$variable, color=.data$variable), data=data_long)+
-      ggplot2::scale_color_manual(values = color_vals)
+      ggplot2::scale_color_manual(values = color_vals)+
+      ggplot2::labs(color="variable")
 
     # Add start of forecast ----
     if(!is.null(h) & cross_validation == FALSE){

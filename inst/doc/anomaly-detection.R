@@ -20,11 +20,11 @@ df <- nixtlar::electricity
 head(df)
 
 ## -----------------------------------------------------------------------------
-nixtla_client_anomalies <- nixtlar::nixtla_client_detect_anomalies(df, id_col = "unique_id") 
+nixtla_client_anomalies <- nixtlar::nixtla_client_detect_anomalies(df) 
 head(nixtla_client_anomalies)
 
 ## -----------------------------------------------------------------------------
-nixtlar::nixtla_client_plot(df, nixtla_client_anomalies, id_col = "unique_id", plot_anomalies = TRUE)
+nixtlar::nixtla_client_plot(df, nixtla_client_anomalies, plot_anomalies = TRUE)
 
 ## ----include=FALSE------------------------------------------------------------
 options(original_options)

@@ -20,11 +20,11 @@ df <- nixtlar::electricity
 head(df)
 
 ## -----------------------------------------------------------------------------
-nixtla_client_cv <- nixtla_client_cross_validation(df, h = 8, id_col = "unique_id", n_windows = 5)
+nixtla_client_cv <- nixtla_client_cross_validation(df, h = 8, n_windows = 5)
 head(nixtla_client_cv)
 
 ## -----------------------------------------------------------------------------
-nixtla_client_plot(df, nixtla_client_cv, id_col = "unique_id", max_insample_length = 200)
+nixtla_client_plot(df, nixtla_client_cv, max_insample_length = 200)
 
 ## ----include=FALSE------------------------------------------------------------
 options(original_options)

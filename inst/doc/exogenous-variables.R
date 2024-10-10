@@ -24,17 +24,17 @@ future_exo_vars <- nixtlar::electricity_future_exo_vars
 head(future_exo_vars)
 
 ## -----------------------------------------------------------------------------
-fcst_exo_vars <- nixtla_client_forecast(df_exo_vars, h = 24, id_col = "unique_id", X_df = future_exo_vars)
+fcst_exo_vars <- nixtla_client_forecast(df_exo_vars, h = 24, X_df = future_exo_vars)
 head(fcst_exo_vars)
 
 ## -----------------------------------------------------------------------------
 df <- nixtlar::electricity # same dataset but without the exogenous variables
 
-fcst <- nixtla_client_forecast(df, h = 24, id_col = "unique_id")
+fcst <- nixtla_client_forecast(df, h = 24)
 head(fcst)
 
 ## -----------------------------------------------------------------------------
-nixtla_client_plot(df_exo_vars, fcst_exo_vars, id_col = "unique_id", max_insample_length = 500)
+nixtla_client_plot(df_exo_vars, fcst_exo_vars, max_insample_length = 500)
 
 ## ----include=FALSE------------------------------------------------------------
 options(original_options)

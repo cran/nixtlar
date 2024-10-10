@@ -26,15 +26,15 @@ library(nixtlar)
 #  # Inside the .Renviron file
 #  NIXTLA_API_KEY="paste your API key here"
 
-## -----------------------------------------------------------------------------
-nixtla_validate_api_key()
+## ----eval=FALSE---------------------------------------------------------------
+#  nixtla_validate_api_key()
 
 ## -----------------------------------------------------------------------------
 df <- nixtlar::electricity
 head(df)
 
 ## -----------------------------------------------------------------------------
-nixtla_client_fcst <- nixtla_client_forecast(df, h = 8, id_col = "unique_id", level = c(80,95))
+nixtla_client_fcst <- nixtla_client_forecast(df, h = 8, level = c(80,95))
 head(nixtla_client_fcst)
 
 ## -----------------------------------------------------------------------------

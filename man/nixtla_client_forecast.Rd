@@ -2,17 +2,19 @@
 % Please edit documentation in R/nixtla_client_forecast.R
 \name{nixtla_client_forecast}
 \alias{nixtla_client_forecast}
-\title{Generate 'TimeGPT' forecast}
+\title{Sequential version of 'nixtla_client_forecast'
+This is a private function of 'nixtlar'}
 \usage{
 nixtla_client_forecast(
   df,
   h = 8,
   freq = NULL,
-  id_col = NULL,
+  id_col = "unique_id",
   time_col = "ds",
   target_col = "y",
   X_df = NULL,
   level = NULL,
+  quantiles = NULL,
   finetune_steps = 0,
   finetune_loss = "default",
   clean_ex_first = TRUE,
@@ -21,7 +23,7 @@ nixtla_client_forecast(
 )
 }
 \arguments{
-\item{df}{A tsibble or a data frame with time series data.}
+\item{df}{A data frame with time series data.}
 
 \item{h}{Forecast horizon.}
 
@@ -37,6 +39,8 @@ nixtla_client_forecast(
 
 \item{level}{The confidence levels (0-100) for the prediction intervals.}
 
+\item{quantiles}{Quantiles to forecast. Should be between 0 and 1.}
+
 \item{finetune_steps}{Number of steps used to finetune 'TimeGPT' in the new data.}
 
 \item{finetune_loss}{Loss function to use for finetuning. Options are: "default", "mae", "mse", "rmse", "mape", and "smape".}
@@ -51,7 +55,8 @@ nixtla_client_forecast(
 'TimeGPT''s forecast.
 }
 \description{
-Generate 'TimeGPT' forecast
+Sequential version of 'nixtla_client_forecast'
+This is a private function of 'nixtlar'
 }
 \examples{
 \dontrun{
@@ -61,3 +66,4 @@ Generate 'TimeGPT' forecast
 }
 
 }
+\keyword{internal}

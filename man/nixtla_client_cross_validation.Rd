@@ -2,17 +2,18 @@
 % Please edit documentation in R/nixtla_client_cross_validation.R
 \name{nixtla_client_cross_validation}
 \alias{nixtla_client_cross_validation}
-\title{Perform cross validation with 'TimeGPT'.}
+\title{Sequential version of 'nixtla_client_cross_validation'
+This is a private function of 'nixtlar'}
 \usage{
 nixtla_client_cross_validation(
   df,
   h = 8,
   freq = NULL,
-  id_col = NULL,
+  id_col = "unique_id",
   time_col = "ds",
   target_col = "y",
-  X_df = NULL,
   level = NULL,
+  quantiles = NULL,
   n_windows = 1,
   step_size = NULL,
   finetune_steps = 0,
@@ -22,7 +23,7 @@ nixtla_client_cross_validation(
 )
 }
 \arguments{
-\item{df}{A tsibble or a data frame with time series data.}
+\item{df}{A data frame with time series data.}
 
 \item{h}{Forecast horizon.}
 
@@ -34,9 +35,9 @@ nixtla_client_cross_validation(
 
 \item{target_col}{Column that contains the target variable.}
 
-\item{X_df}{A tsibble or a data frame with future exogenous variables.}
-
 \item{level}{The confidence levels (0-100) for the prediction intervals.}
+
+\item{quantiles}{Quantiles to forecast. Should be between 0 and 1.}
 
 \item{n_windows}{Number of windows to evaluate.}
 
@@ -51,10 +52,11 @@ nixtla_client_cross_validation(
 \item{model}{Model to use, either "timegpt-1" or "timegpt-1-long-horizon". Use "timegpt-1-long-horizon" if you want to forecast more than one seasonal period given the frequency of the data.}
 }
 \value{
-A tsibble or a data frame with 'TimeGPT''s cross validation result.
+A data frame with 'TimeGPT''s cross validation result.
 }
 \description{
-Perform cross validation with 'TimeGPT'.
+Sequential version of 'nixtla_client_cross_validation'
+This is a private function of 'nixtlar'
 }
 \examples{
 \dontrun{
@@ -64,3 +66,4 @@ Perform cross validation with 'TimeGPT'.
 }
 
 }
+\keyword{internal}

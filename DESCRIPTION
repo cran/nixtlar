@@ -1,6 +1,6 @@
 Package: nixtlar
 Title: A Software Development Kit for 'Nixtla''s 'TimeGPT'
-Version: 0.5.2
+Version: 0.6.1
 Authors@R: c(
     person("Mariana", "Menchero", email = "mariana@nixtla.io", role = c("aut", "cre"), comment = "First author and maintainer"),
     person("Nixtla", role = "cph", comment = "Copyright held by 'Nixtla'")
@@ -16,16 +16,18 @@ Encoding: UTF-8
 RoxygenNote: 7.2.3
 Depends: R (>= 2.10)
 LazyData: true
-Imports: dplyr, ggplot2, httr2, lubridate, rlang, tidyr, tidyselect,
-        tsibble
+Imports: dplyr, future, future.apply, ggplot2, httr2, lubridate, purrr,
+        rlang, tidyr, tidyselect
 Suggests: httptest2, knitr, rmarkdown, testthat (>= 3.0.0), usethis
 Config/testthat/edition: 3
-URL: https://nixtla.github.io/nixtlar/, https://docs.nixtla.io/
+URL: https://nixtla.github.io/nixtlar/, https://docs.nixtla.io/,
+        https://github.com/Nixtla/nixtlar
 VignetteBuilder: knitr
+BugReports: https://github.com/Nixtla/nixtlar/issues
 NeedsCompilation: no
-Packaged: 2024-05-31 03:18:02 UTC; marianamenchero
+Packaged: 2024-10-10 03:09:40 UTC; marianamenchero
 Author: Mariana Menchero [aut, cre] (First author and maintainer),
   Nixtla [cph] (Copyright held by 'Nixtla')
 Maintainer: Mariana Menchero <mariana@nixtla.io>
 Repository: CRAN
-Date/Publication: 2024-06-01 08:20:06 UTC
+Date/Publication: 2024-10-10 03:20:02 UTC

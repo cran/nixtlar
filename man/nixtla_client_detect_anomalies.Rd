@@ -2,12 +2,13 @@
 % Please edit documentation in R/nixtla_client_detect_anomalies.R
 \name{nixtla_client_detect_anomalies}
 \alias{nixtla_client_detect_anomalies}
-\title{Detect anomalies with 'TimeGPT'}
+\title{Sequential version of 'nixtla_client_detect_anomalies'
+This is a private function of 'nixtlar'}
 \usage{
 nixtla_client_detect_anomalies(
   df,
   freq = NULL,
-  id_col = NULL,
+  id_col = "unique_id",
   time_col = "ds",
   target_col = "y",
   level = c(99),
@@ -16,7 +17,7 @@ nixtla_client_detect_anomalies(
 )
 }
 \arguments{
-\item{df}{A tsibble or a data frame with time series data.}
+\item{df}{A data frame with time series data.}
 
 \item{freq}{Frequency of the data.}
 
@@ -33,10 +34,11 @@ nixtla_client_detect_anomalies(
 \item{model}{Model to use, either "timegpt-1" or "timegpt-1-long-horizon". Use "timegpt-1-long-horizon" if you want to forecast more than one seasonal period given the frequency of the data.}
 }
 \value{
-A tsibble or a data frame with the anomalies detected in the historical period.
+A data frame with the anomalies detected in the historical period.
 }
 \description{
-Detect anomalies with 'TimeGPT'
+Sequential version of 'nixtla_client_detect_anomalies'
+This is a private function of 'nixtlar'
 }
 \examples{
 \dontrun{
@@ -46,3 +48,4 @@ Detect anomalies with 'TimeGPT'
 }
 
 }
+\keyword{internal}

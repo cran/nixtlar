@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Data Requirements</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Data Requirements</h1>
+
+
+<div id="TOC">
+<ul>
+<li><a href="#input-requirements" id="toc-input-requirements">1. Input
+Requirements</a></li>
+<li><a href="#multiple-series" id="toc-multiple-series">2. Multiple
+Series</a></li>
+<li><a href="#exogenous-variables" id="toc-exogenous-variables">3.
+Exogenous Variables</a></li>
+<li><a href="#missing-values" id="toc-missing-values">4. Missing
+values</a></li>
+<li><a href="#minimum-data-requirements" id="toc-minimum-data-requirements">5. Minimum data requirements</a></li>
+</ul>
+</div>
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(nixtlar)</span></code></pre></div>
+<p>This vignette explains the data requirements for using any of the
+core functions of <code>nixtlar</code>:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># Core functions of `nixtlar` </span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="sc">-</span> nixtlar<span class="sc">::</span><span class="fu">nixtla_client_forecast</span>()</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="sc">-</span> nixtlar<span class="sc">::</span><span class="fu">nixtla_client_historic</span>()</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="sc">-</span> nixtlar<span class="sc">::</span><span class="fu">nixtla_client_detect_anomalies</span>()</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="sc">-</span> nixtlar<span class="sc">::</span><span class="fu">nixtla_client_cross_validation</span>()</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="sc">-</span> nixtlar<span class="sc">::</span><span class="fu">nixtla_client_plot</span>()</span></code></pre></div>
+<div id="input-requirements" class="section level2">
+<h2>1. Input Requirements</h2>
+<p><code>nixtlar</code> now supports the following data structures: data
+frames, tibbles, and tsibbles. The output format will always be a data
+frame.</p>
+<p>Regardless of your data structure, the following two columns must
+always be included when using any core functions of
+<code>nixtlar</code>:</p>
+<ul>
+<li><p><strong>Date Column</strong>: This column must contain timestamps
+formatted as <code>YYYY-MM-DD</code> or
+<code>YYYY-MM-DD hh:mm:ss</code>, either as character strings or
+date-time objects. The default name for this column is <code>ds</code>.
+If your dataset uses a different name, please specify it by setting the
+parameter <code>time_col=&quot;your_time_column_name&quot;</code>.</p></li>
+<li><p><strong>Target Column</strong>: This column should contain the
+numeric target variable for forecasting. The default name for this
+column is <code>y</code>. If your dataset uses a different name, specify
+it by setting the parameter
+<code>target_col=&quot;your_target_column_name&quot;</code>.</p></li>
+</ul>
+</div>
+<div id="multiple-series" class="section level2">
+<h2>2. Multiple Series</h2>
+<p>If you are working with multiple series, you must include a column
+with a unique identifier for each series. This column can contain
+characters or integers, and its default name is <code>unique_id</code>.
+If your dataset uses a different name for the identifier column, please
+specify it by setting the parameter
+<code>id_col=&quot;your_id_column_name&quot;</code>. If your dataset contains only
+one series and does not need an identifier, set <code>id_col</code> to
+<code>NULL</code>.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># sample valid input </span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>df <span class="ot">&lt;-</span> nixtlar<span class="sc">::</span>electricity</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="fu">head</span>(df)</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co">#&gt;   unique_id                  ds     y</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co">#&gt; 1        BE 2016-10-22 00:00:00 70.00</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt; 2        BE 2016-10-22 01:00:00 37.10</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co">#&gt; 3        BE 2016-10-22 02:00:00 37.10</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co">#&gt; 4        BE 2016-10-22 03:00:00 44.75</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co">#&gt; 5        BE 2016-10-22 04:00:00 37.10</span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co">#&gt; 6        BE 2016-10-22 05:00:00 35.61</span></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="fu">str</span>(df)</span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="co">#&gt; &#39;data.frame&#39;:    8400 obs. of  3 variables:</span></span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="co">#&gt;  $ unique_id: chr  &quot;BE&quot; &quot;BE&quot; &quot;BE&quot; &quot;BE&quot; ...</span></span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="co">#&gt;  $ ds       : chr  &quot;2016-10-22 00:00:00&quot; &quot;2016-10-22 01:00:00&quot; &quot;2016-10-22 02:00:00&quot; &quot;2016-10-22 03:00:00&quot; ...</span></span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a><span class="co">#&gt;  $ y        : num  70 37.1 37.1 44.8 37.1 ...</span></span></code></pre></div>
+<p>The <code>id_col</code> only accepts characters or integers.</p>
+</div>
+<div id="exogenous-variables" class="section level2">
+<h2>3. Exogenous Variables</h2>
+<p>When using exogenous variables, <code>nixtlar</code> differentiates
+between historical and future exogenous variables:</p>
+<ul>
+<li><p><strong>Historical Exogenous Variables</strong>: These should be
+included in the input data immediately following the
+<code>id_col</code>, <code>ds</code>, and <code>y</code> columns. If
+your dataset contains additional columns that are not exogenous
+variables, you must remove them before using any core functions of
+<code>nixtlar</code>.</p></li>
+<li><p><strong>Future Exogenous Variables</strong>: These correspond to
+the <code>X_df</code> parameter and should cover the entire forecast
+horizon. This dataset should include columns with the appropriate
+timestamps and, if available, unique identifiers, formatted as explained
+in previous sections.</p></li>
+</ul>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># sample valid input with exogenous variables </span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>df <span class="ot">&lt;-</span> nixtlar<span class="sc">::</span>electricity_exo_vars</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="fu">head</span>(df)</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co">#&gt;   unique_id                  ds     y Exogenous1 Exogenous2 day_0 day_1 day_2</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt; 1        BE 2016-10-22 00:00:00 70.00      49593      57253     0     0     0</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt; 2        BE 2016-10-22 01:00:00 37.10      46073      51887     0     0     0</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt; 3        BE 2016-10-22 02:00:00 37.10      44927      51896     0     0     0</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt; 4        BE 2016-10-22 03:00:00 44.75      44483      48428     0     0     0</span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt; 5        BE 2016-10-22 04:00:00 37.10      44338      46721     0     0     0</span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co">#&gt; 6        BE 2016-10-22 05:00:00 35.61      44504      46303     0     0     0</span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="co">#&gt;   day_3 day_4 day_5 day_6</span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="co">#&gt; 1     0     0     1     0</span></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="co">#&gt; 2     0     0     1     0</span></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="co">#&gt; 3     0     0     1     0</span></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="co">#&gt; 4     0     0     1     0</span></span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="co">#&gt; 5     0     0     1     0</span></span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="co">#&gt; 6     0     0     1     0</span></span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a></span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a>future_exo_vars <span class="ot">&lt;-</span> nixtlar<span class="sc">::</span>electricity_future_exo_vars</span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a><span class="fu">head</span>(future_exo_vars)</span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a><span class="co">#&gt;   unique_id                  ds Exogenous1 Exogenous2 day_0 day_1 day_2 day_3</span></span>
+<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a><span class="co">#&gt; 1        BE 2016-12-31 00:00:00      64108      70318     0     0     0     0</span></span>
+<span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a><span class="co">#&gt; 2        BE 2016-12-31 01:00:00      62492      67898     0     0     0     0</span></span>
+<span id="cb4-24"><a href="#cb4-24" tabindex="-1"></a><span class="co">#&gt; 3        BE 2016-12-31 02:00:00      61571      68379     0     0     0     0</span></span>
+<span id="cb4-25"><a href="#cb4-25" tabindex="-1"></a><span class="co">#&gt; 4        BE 2016-12-31 03:00:00      60381      64972     0     0     0     0</span></span>
+<span id="cb4-26"><a href="#cb4-26" tabindex="-1"></a><span class="co">#&gt; 5        BE 2016-12-31 04:00:00      60298      62900     0     0     0     0</span></span>
+<span id="cb4-27"><a href="#cb4-27" tabindex="-1"></a><span class="co">#&gt; 6        BE 2016-12-31 05:00:00      60339      62364     0     0     0     0</span></span>
+<span id="cb4-28"><a href="#cb4-28" tabindex="-1"></a><span class="co">#&gt;   day_4 day_5 day_6</span></span>
+<span id="cb4-29"><a href="#cb4-29" tabindex="-1"></a><span class="co">#&gt; 1     0     1     0</span></span>
+<span id="cb4-30"><a href="#cb4-30" tabindex="-1"></a><span class="co">#&gt; 2     0     1     0</span></span>
+<span id="cb4-31"><a href="#cb4-31" tabindex="-1"></a><span class="co">#&gt; 3     0     1     0</span></span>
+<span id="cb4-32"><a href="#cb4-32" tabindex="-1"></a><span class="co">#&gt; 4     0     1     0</span></span>
+<span id="cb4-33"><a href="#cb4-33" tabindex="-1"></a><span class="co">#&gt; 5     0     1     0</span></span>
+<span id="cb4-34"><a href="#cb4-34" tabindex="-1"></a><span class="co">#&gt; 6     0     1     0</span></span></code></pre></div>
+<p>To learn more about how to use exogenous variables, please refer to
+the <a href="https://nixtla.github.io/nixtlar/articles/exogenous-variables.html">Exogenous
+variables vignette</a>.</p>
+</div>
+<div id="missing-values" class="section level2">
+<h2>4. Missing values</h2>
+<p>When using <code>TimeGPT</code> via <code>nixtlar</code>, you need to
+ensure that:</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>No Missing Values in Target Column</strong>: The target
+column must not contain any missing values (NA).</p></li>
+<li><p><strong>Continuous Date Sequence</strong>: The dates must be
+continuous and without any gaps, from the start date to the end date,
+matching the frequency of the data.</p></li>
+</ol>
+<p>Currently, <strong>nixtlar</strong> does not provide any
+functionality to fill missing values or dates. To learn more about this,
+please refer to the vignette on <a href="https://nixtla.github.io/nixtlar/articles/special-topics.html">Special
+Topics</a>.</p>
+</div>
+<div id="minimum-data-requirements" class="section level2">
+<h2>5. Minimum data requirements</h2>
+<p>The minimum size <strong>per series</strong> to obtain results from
+<code>nixtlar::nixtla_client_forecast</code> is one, regardless of the
+frequency of the data. Keep in mind, however, that this will produce
+results with limited accuracy.</p>
+<p>For certain scenarios, more than one observation may be
+necessary:</p>
+<ul>
+<li>When using the parameters <code>level</code>,
+<code>quantiles</code>, or <code>finetune_steps</code>.</li>
+<li>When incorporating exogenous variables.</li>
+<li>When including historical forecasts by setting
+<code>add_history=TRUE</code>.</li>
+</ul>
+<p>The minimum data requirement varies with the frequency of the data,
+detailed in the official <a href="https://docs.nixtla.io/docs/getting-started-data_requirements">TimeGPT
+documentation</a>.</p>
+<p>When using <code>nixtlar::nixtla_client_cross_validation</code>, you
+also need to consider the forecast horizon (<code>h</code>), the number
+of windows (<code>n_windows</code>) and the step size
+(<code>step_size</code>). The formula for the minimum data points
+required per series is:</p>
+<p><span class="math display">\[\begin{equation}
+\text{Min per series} = \text{Min per
+frequency}+h+\text{step_size}*(\text{n_windows}-1)
+\end{equation}\]</span></p>
+<p>Here, <span class="math inline">\(\text{Min per frequency}\)</span>
+refers to the values specified in the table from the official
+documentation.</p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

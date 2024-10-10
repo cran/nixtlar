@@ -2,7 +2,8 @@
 % Please edit documentation in R/nixtla_client_historic.R
 \name{nixtla_client_historic}
 \alias{nixtla_client_historic}
-\title{Generate 'TimeGPT' forecast for the in-sample period (historical period).}
+\title{Sequential version of 'nixtla_client_historic'
+This is a private function of 'nixtlar'}
 \usage{
 nixtla_client_historic(
   df,
@@ -11,9 +12,11 @@ nixtla_client_historic(
   time_col = "ds",
   target_col = "y",
   level = NULL,
+  quantiles = NULL,
   finetune_steps = 0,
   finetune_loss = "default",
-  clean_ex_first = TRUE
+  clean_ex_first = TRUE,
+  model = "timegpt-1"
 )
 }
 \arguments{
@@ -29,17 +32,22 @@ nixtla_client_historic(
 
 \item{level}{The confidence levels (0-100) for the prediction intervals.}
 
+\item{quantiles}{Quantiles to forecast. Should be between 0 and 1.}
+
 \item{finetune_steps}{Number of steps used to finetune 'TimeGPT' in the new data.}
 
 \item{finetune_loss}{Loss function to use for finetuning. Options are: "default", "mae", "mse", "rmse", "mape", and "smape".}
 
 \item{clean_ex_first}{Clean exogenous signal before making the forecasts using 'TimeGPT'.}
+
+\item{model}{Model to use, either "timegpt-1" or "timegpt-1-long-horizon". Use "timegpt-1-long-horizon" if you want to forecast more than one seasonal period given the frequency of the data.}
 }
 \value{
 'TimeGPT''s forecast for the in-sample period.
 }
 \description{
-Generate 'TimeGPT' forecast for the in-sample period (historical period).
+Sequential version of 'nixtla_client_historic'
+This is a private function of 'nixtlar'
 }
 \examples{
 \dontrun{
@@ -49,3 +57,4 @@ Generate 'TimeGPT' forecast for the in-sample period (historical period).
 }
 
 }
+\keyword{private}
