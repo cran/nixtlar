@@ -369,14 +369,14 @@ intervals are part of probabilistic forecasting, which, unlike point
 forecasting, aims to generate the full forecast distribution instead of
 just the mean or the median of that distribution.</p>
 <p>This vignette assumes you have already set up your API key. If you
-haven’t done this, please read the <a href="https://nixtla.github.io/nixtlar/articles/anomaly-detection.html">Get
+haven’t done this, please read the <a href="https://nixtla.github.io/nixtlar/articles/get-started.html">Get
 Started</a> vignette first.</p>
 </div>
 <div id="load-data" class="section level2">
 <h2>2. Load data</h2>
-<p>For this vignette, we’ll use the electricity consumption dataset that
-is included in <code>nixtlar</code>, which contains the hourly prices of
-five different electricity markets.</p>
+<p>For this vignette, we will use the electricity consumption dataset
+that is included in <code>nixtlar</code>, which contains the hourly
+prices of five different electricity markets.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>df <span class="ot">&lt;-</span> nixtlar<span class="sc">::</span>electricity</span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">head</span>(df)</span>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co">#&gt;   unique_id                  ds     y</span></span>
@@ -418,10 +418,10 @@ between 0 and 100. You can use either <code>quantiles</code> or
 <span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="co">#&gt; 5      47.41012      53.74836</span></span>
 <span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="co">#&gt; 6      47.78252      57.16700</span></span></code></pre></div>
 <p>Note that the <code>level</code> argument in the
-<code>nixtlar::nixtla_client_detect_anomalies()</code> function uses
-only the maximum value when there are multiple values. Hence, setting
-<code>level=c(90,95,99)</code>, for example, is equivalent to setting
-<code>level=c(99)</code>, which is the default value.</p>
+<code>nixtlar::nixtla_client_detect_anomalies()</code> function only
+uses the maximum value when multiple values are provided. Therefore,
+setting <code>level = c(90, 95, 99)</code>, for example, is equivalent
+to setting <code>level = c(99)</code>, which is the default value.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>anomalies <span class="ot">&lt;-</span> <span class="fu">nixtla_client_detect_anomalies</span>(df) <span class="co"># level=c(90,95,99)</span></span>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co">#&gt; Frequency chosen: h</span></span>
 <span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="fu">head</span>(anomalies) <span class="co"># only the 99% confidence level is used </span></span>

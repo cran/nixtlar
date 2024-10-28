@@ -363,7 +363,7 @@ promotional sales.</p>
 <p><code>TimeGPT</code> allows you to include exogenous variables when
 generating a forecast. This vignette will show you how to include them.
 It assumes you have already set up your API key. If you haven’t done
-this, please read the <a href="https://nixtla.github.io/nixtlar/articles/anomaly-detection.html">Get
+this, please read the <a href="https://nixtla.github.io/nixtlar/articles/get-started.html">Get
 Started</a> vignette first.</p>
 </div>
 <div id="load-data" class="section level2">
@@ -389,7 +389,7 @@ indicating the day of the week.</p>
 <span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="co">#&gt; 4     0     0     1     0</span></span>
 <span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a><span class="co">#&gt; 5     0     0     1     0</span></span>
 <span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a><span class="co">#&gt; 6     0     0     1     0</span></span></code></pre></div>
-<p>When using exogenous variables, <code>nixtlar</code> differentiates
+<p>When using exogenous variables, <code>nixtlar</code> distinguishes
 between historical and future exogenous variables:</p>
 <ul>
 <li><p><strong>Historical Exogenous Variables</strong>: These should be
@@ -400,9 +400,8 @@ variables, you must remove them before using any core functions of
 <code>nixtlar</code>.</p></li>
 <li><p><strong>Future Exogenous Variables</strong>: These correspond to
 the <code>X_df</code> parameter and should cover the entire forecast
-horizon. This dataset should include columns with the appropriate
-timestamps and, if available, unique identifiers, formatted as explained
-in previous sections.</p></li>
+horizon. This dataset must include columns with the appropriate
+timestamps and, if applicable, unique identifiers.</p></li>
 </ul>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>future_exo_vars <span class="ot">&lt;-</span> nixtlar<span class="sc">::</span>electricity_future_exo_vars</span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">head</span>(future_exo_vars)</span>
@@ -439,9 +438,9 @@ exogenous variables using the <code>X_df</code> argument.</p>
 <span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co">#&gt; 4        BE 2016-12-31 03:00:00 38.09440</span></span>
 <span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="co">#&gt; 5        BE 2016-12-31 04:00:00 37.38914</span></span>
 <span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="co">#&gt; 6        BE 2016-12-31 05:00:00 39.08574</span></span></code></pre></div>
-<p>For comparison, we will also generate a forecast without the
-exogenous variables.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>df <span class="ot">&lt;-</span> nixtlar<span class="sc">::</span>electricity <span class="co"># same dataset but without the exogenous variables</span></span>
+<p>For comparison, we will also generate a forecast without exogenous
+variables.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>df <span class="ot">&lt;-</span> nixtlar<span class="sc">::</span>electricity <span class="co"># same dataset but without exogenous variables</span></span>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>fcst <span class="ot">&lt;-</span> <span class="fu">nixtla_client_forecast</span>(df, <span class="at">h =</span> <span class="dv">24</span>)</span>
 <span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#&gt; Frequency chosen: h</span></span>

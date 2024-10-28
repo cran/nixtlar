@@ -5,10 +5,12 @@
 \title{Make requests to the 'TimeGPT' API
 This is a private function of 'nixtlar'}
 \usage{
-.make_request(url, payload_list)
+.make_request(base_url, api_key, payload_list)
 }
 \arguments{
-\item{url}{String specifying the API endpoint to which the request is sent.}
+\item{base_url}{String specifying the API endpoint to which the request is sent.}
+
+\item{api_key}{The user's API key.}
 
 \item{payload_list}{List containing the information to be sent to the 'TimeGPT' API.}
 }
@@ -21,7 +23,7 @@ This is a private function of 'nixtlar'
 }
 \examples{
 \dontrun{
-  response <- .make_request(url, payload_list_element)
+  response <- .make_request(base_url, api_key, payload_list)
 }
 
 }

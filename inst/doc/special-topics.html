@@ -372,22 +372,21 @@ time frame.</p>
 <p>There are several ways to check for missing values in R. One method
 is with the <code>any</code> and <code>is.na</code> functions from base
 R.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a></span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>df <span class="ot">&lt;-</span> nixtlar<span class="sc">::</span>electricity <span class="co"># load data </span></span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co"># create some missing values at random </span></span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>index <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(df), <span class="dv">10</span>)</span>
-<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>df<span class="sc">$</span>y[index] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a></span>
-<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co"># check for missing values </span></span>
-<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="fu">any</span>(<span class="fu">is.na</span>(df)) <span class="co"># will return TRUE if there are missing values </span></span>
-<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>df <span class="ot">&lt;-</span> nixtlar<span class="sc">::</span>electricity <span class="co"># load data </span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co"># create some missing values at random </span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>index <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(df), <span class="dv">10</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>df<span class="sc">$</span>y[index] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co"># check for missing values </span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="fu">any</span>(<span class="fu">is.na</span>(df)) <span class="co"># will return TRUE if there are missing values </span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
 <p>If you find missing values in your data, you need to decide how to
 fill them, which is very context-dependent. For example, if you are
 dealing with daily retail data, a missing value most likely indicates
 that there were no sales on that day, and you can probably fill it with
 zero. However, if you are working with hourly temperature data, a
-missing value likely means that the sensor was not functioning
+missing value likely means that the thermometer was not functioning
 correctly, and you might prefer to use interpolation to fill the missing
 values. Whatever you decide to do, always keep in mind the nature of
 your data.</p>
@@ -410,10 +409,13 @@ points. The core functions of <code>nixtlar</code> that interface with
 <code>TimeGPT</code>, such as <code>nixtla_client_forecast</code>,
 <code>nixtla_client_historic</code>,
 <code>nixtla_client_detect_anomalies</code>, and
-<code>nixtla_client_cross_validation</code>, require you to specify the
-<code>freq</code> parameter, although in some cases <code>nixtlar</code>
-can deduce it from your data.</p>
-<p><code>TimeGPT</code> supports the following aliases:</p>
+<code>nixtla_client_cross_validation</code>, include a frequency
+parameter called <code>freq</code>, which has a default value of
+<code>NULL</code>. If you know the frequency of your data, please
+specify it. If you don’t, <code>nixtlar</code> will try to deduce it
+from the data using the <code>nixtlar::infer_frequency</code>
+function.</p>
+<p>The <code>freq</code> parameter supports the following aliases:</p>
 <table>
 <thead>
 <tr class="header">
@@ -461,21 +463,39 @@ can deduce it from your data.</p>
 </tbody>
 </table>
 <p>In this table, QS and MS stand for quarter and month start, while QE
-and ME stand for quarter and month end. Hourly and subhourly frequencies
-can be preceded by an integer, such as “6h”, “10min” or “30s”.
-<strong>Only the aliases “min” and “S” are allowed for minute and
-second-level frequencies</strong>.</p>
-<p>The default value of the frequency parameter is <code>NULL</code>.
-When this parameter is not specified, <code>nixtlar</code> will attempt
-to determine the frequency of your data.</p>
+and ME stand for quarter and month end. For quarter-end, the following
+dates are used.</p>
+<table>
+<thead>
+<tr class="header">
+<th>End of Quarter Dates</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>YYYY-03-31</td>
+</tr>
+<tr class="even">
+<td>YYYY-06-30</td>
+</tr>
+<tr class="odd">
+<td>YYYY-09-30</td>
+</tr>
+<tr class="even">
+<td>YYYY-12-31</td>
+</tr>
+</tbody>
+</table>
+<p>For month-end, the last day of each month is used.</p>
+<p>Hourly and sub-hourly frequencies can be preceded by an integer, such
+as “6h”, “10min” or “30s”. <strong>Only the aliases “min” and “s” are
+allowed for minute and second-level frequencies</strong>.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a></span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>df <span class="ot">&lt;-</span> nixtlar<span class="sc">::</span>electricity</span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>fcst <span class="ot">&lt;-</span> nixtlar<span class="sc">::</span><span class="fu">nixtla_client_forecast</span>(df, <span class="at">h =</span> <span class="dv">8</span>, <span class="at">level =</span> <span class="fu">c</span>(<span class="dv">80</span>,<span class="dv">95</span>)) <span class="co"># freq = &quot;h&quot;</span></span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co">#&gt; Frequency chosen: h</span></span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co"># infer the frequency when `freq` is not specified </span></span></code></pre></div>
-<p><strong>Currently, <code>nixtlar</code> can’t infer business day
-frequency, so you must set it directly using
-<code>freq=&quot;B&quot;</code>.</strong></p>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co"># infer the frequency when `freq` is not specified </span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>fcst <span class="ot">&lt;-</span> nixtlar<span class="sc">::</span><span class="fu">nixtla_client_forecast</span>(df, <span class="at">h =</span> <span class="dv">8</span>, <span class="at">level =</span> <span class="fu">c</span>(<span class="dv">80</span>,<span class="dv">95</span>)) <span class="co"># freq = &quot;h&quot;</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt; Frequency chosen: h</span></span></code></pre></div>
 </div>
 
 

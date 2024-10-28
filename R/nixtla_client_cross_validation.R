@@ -163,12 +163,12 @@ nixtla_client_cross_validation <- function(df, h=8, freq=NULL, id_col="unique_id
   }
 
   # Make request ----
-  url <- "https://api.nixtla.io/v2/cross_validation"
-  req <- httr2::request(url) |>
+  setup <- .get_client_steup()
+  req <- httr2::request(paste0(setup$base_url, "v2/cross_validation")) |>
     httr2::req_headers(
       "accept" = "application/json",
       "content-type" = "application/json",
-      "authorization" = paste("Bearer", .get_api_key())
+      "authorization" = paste("Bearer", setup$api_key)
     ) |>
     httr2::req_user_agent("nixtlar") |>
     httr2::req_body_json(data = payload) |>
@@ -220,7 +220,7 @@ nixtla_client_cross_validation <- function(df, h=8, freq=NULL, id_col="unique_id
   window_starts <- seq(0, sum(unlist(resp$sizes)) - 1, by = h)
   cutoff_idxs <- rep(idxs[window_starts + 1] - 1, each = h)
   cutoff_dates <- df$ds[unique(cutoff_idxs)]
-  cutoff <- unlist(lapply(cutoff_dates, function(i) {rep(i, times = h)}))
+  cutoff <- do.call(c, sapply(cutoff_dates, function(i) rep(i, times = h), simplify = FALSE))
   cutoff <- as.POSIXct(cutoff)
 
   dt <- data.frame(

@@ -358,7 +358,7 @@ evaluate a model’s performance over time.</p>
 <p><code>TimeGPT</code> has a method for generating fitted values, and
 users can call it from <code>nixtlar</code>. This vignette will explain
 how to do this. It assumes you have already set up your API key. If you
-haven’t done this, please read the <a href="https://nixtla.github.io/nixtlar/articles/anomaly-detection.html">Get
+haven’t done this, please read the <a href="https://nixtla.github.io/nixtlar/articles/get-started.html">Get
 Started</a> vignette first.</p>
 </div>
 <div id="load-data" class="section level2">
@@ -382,13 +382,15 @@ five different electricity markets.</p>
 <code>nixtlar::nixtla_client_historic</code>, which should include the
 following parameters:</p>
 <ul>
-<li><strong>df</strong>: The time series data, either as a data frame, a
-tibble, or a tsibble. It should include at least a column with the
-datestamps and a column with the observations. Default names for these
-columns are <code>ds</code> and <code>y</code>. If different, please
-specify their names. If working with multiple series, you also need to
-include a column with unique identifiers. The default name for this
-column is <code>unique_id</code>.</li>
+<li><strong>df</strong>: The time series data, provided as a data frame,
+tibble, or tsibble. It must include at least two columns: one for the
+timestamps and one for the observations. The default names for these
+columns are <code>ds</code> and <code>y</code>. If your column names are
+different, specify them with <code>time_col</code> and
+<code>target_col</code>, respectively. If you are working with multiple
+series, you must also include a column with unique identifiers. The
+default name for this column is <code>unique_id</code>; if different,
+specify it with <code>id_col</code>.</li>
 <li><strong>level</strong>: The prediction intervals for the
 forecast.</li>
 </ul>
@@ -411,7 +413,7 @@ forecast.</li>
 <span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="co">#&gt; 6     101.21690</span></span></code></pre></div>
 <p>Notice that there are no fitted values for some of the initial
 observations. This is because <code>TimeGPT</code> requires a minimum
-number of values to generate reliable forecasts.</p>
+number of values to generate a forecast for the historical data.</p>
 <p>All the fitted values are generated using a rolling window, meaning
 that the fitted value for observation <span class="math inline">\(T\)</span> is generated using the first <span class="math inline">\(T-1\)</span> observations.</p>
 <div id="fitted-values-from-nixtlarnixtla_client_forecast" class="section level3">

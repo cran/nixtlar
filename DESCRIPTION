@@ -1,6 +1,6 @@
 Package: nixtlar
 Title: A Software Development Kit for 'Nixtla''s 'TimeGPT'
-Version: 0.6.1
+Version: 0.6.2
 Authors@R: c(
     person("Mariana", "Menchero", email = "mariana@nixtla.io", role = c("aut", "cre"), comment = "First author and maintainer"),
     person("Nixtla", role = "cph", comment = "Copyright held by 'Nixtla'")
@@ -25,9 +25,9 @@ URL: https://nixtla.github.io/nixtlar/, https://docs.nixtla.io/,
 VignetteBuilder: knitr
 BugReports: https://github.com/Nixtla/nixtlar/issues
 NeedsCompilation: no
-Packaged: 2024-10-10 03:09:40 UTC; marianamenchero
+Packaged: 2024-10-28 22:59:57 UTC; marianamenchero
 Author: Mariana Menchero [aut, cre] (First author and maintainer),
   Nixtla [cph] (Copyright held by 'Nixtla')
 Maintainer: Mariana Menchero <mariana@nixtla.io>
 Repository: CRAN
-Date/Publication: 2024-10-10 03:20:02 UTC
+Date/Publication: 2024-10-28 23:10:02 UTC

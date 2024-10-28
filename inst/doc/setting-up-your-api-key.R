@@ -23,10 +23,10 @@ library(nixtlar)
 #  - nixtlar::nixtla_client_cross_validation()
 
 ## ----eval=FALSE---------------------------------------------------------------
-#  nixtlar::nixtla_set_api_key(api_key = "paste your API key here")
+#  nixtlar::nixtla_client_setup(api_key = "Your API key here")
 
 ## ----eval=FALSE---------------------------------------------------------------
-#  options(NIXTLA_API_KEY="paste your API key here")
+#  options(NIXTLA_API_KEY="Your API key here")
 
 ## ----eval=FALSE---------------------------------------------------------------
 #  getOption("NIXTLA_API_KEY")
@@ -41,6 +41,12 @@ library(nixtlar)
 
 ## ----eval=FALSE---------------------------------------------------------------
 #  nixtlar::nixtla_validate_api_key()
+
+## ----eval=FALSE---------------------------------------------------------------
+#  nixtlar::nixtla_client_setup(
+#    base_url = "Base URL here",
+#    api_key = "Your API key here"
+#  )
 
 ## ----include=FALSE------------------------------------------------------------
 options(original_options)

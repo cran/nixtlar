@@ -369,14 +369,14 @@ corresponds to the median forecast value provided by
 prediction</a>, a framework for creating distribution-free uncertainty
 intervals for predictive models.</p>
 <p>This vignette assumes you have already set up your API key. If you
-haven’t done this, please read the <a href="https://nixtla.github.io/nixtlar/articles/anomaly-detection.html">Get
+haven’t done this, please read the <a href="https://nixtla.github.io/nixtlar/articles/get-started.html">Get
 Started</a> vignette first.</p>
 </div>
 <div id="load-data" class="section level2">
 <h2>2. Load data</h2>
-<p>For this vignette, we’ll use the electricity consumption dataset that
-is included in <code>nixtlar</code>, which contains the hourly prices of
-five different electricity markets.</p>
+<p>For this vignette, we will use the electricity consumption dataset
+that is included in <code>nixtlar</code>, which contains the hourly
+prices of five different electricity markets.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>df <span class="ot">&lt;-</span> nixtlar<span class="sc">::</span>electricity</span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">head</span>(df)</span>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co">#&gt;   unique_id                  ds     y</span></span>

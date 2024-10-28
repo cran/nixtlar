@@ -15,26 +15,25 @@ knitr::opts_chunk$set(
 ## -----------------------------------------------------------------------------
 library(nixtlar)
 
-## -----------------------------------------------------------------------------
-df_exo_vars <- nixtlar::electricity_exo_vars
-head(df_exo_vars)
+## ----eval = FALSE-------------------------------------------------------------
+#  install.packages("nixtlar") # CRAN version
+#  
+#  library(devtools)
+#  devtools::install_github("Nixtla/nixtlar")
+
+## ----eval = FALSE-------------------------------------------------------------
+#  nixtla_client_setup(
+#    base_url = "Base URL here",
+#    api_key = "API key here"
+#  )
 
 ## -----------------------------------------------------------------------------
-future_exo_vars <- nixtlar::electricity_future_exo_vars
-head(future_exo_vars)
+df <- nixtlar::electricity
+nixtla_client_fcst <- nixtla_client_forecast(df, h = 8, level = c(80,95))
+head(nixtla_client_fcst)
 
 ## -----------------------------------------------------------------------------
-fcst_exo_vars <- nixtla_client_forecast(df_exo_vars, h = 24, X_df = future_exo_vars)
-head(fcst_exo_vars)
-
-## -----------------------------------------------------------------------------
-df <- nixtlar::electricity # same dataset but without exogenous variables
-
-fcst <- nixtla_client_forecast(df, h = 24)
-head(fcst)
-
-## -----------------------------------------------------------------------------
-nixtla_client_plot(df_exo_vars, fcst_exo_vars, max_insample_length = 500)
+nixtla_client_plot(df, nixtla_client_fcst, max_insample_length = 200)
 
 ## ----include=FALSE------------------------------------------------------------
 options(original_options)

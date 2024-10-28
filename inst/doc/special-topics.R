@@ -16,7 +16,6 @@ knitr::opts_chunk$set(
 library(nixtlar)
 
 ## -----------------------------------------------------------------------------
-
 df <- nixtlar::electricity # load data 
 
 # create some missing values at random 
@@ -29,8 +28,9 @@ any(is.na(df)) # will return TRUE if there are missing values
 ## -----------------------------------------------------------------------------
 
 df <- nixtlar::electricity
-fcst <- nixtlar::nixtla_client_forecast(df, h = 8, level = c(80,95)) # freq = "h"
+
 # infer the frequency when `freq` is not specified 
+fcst <- nixtlar::nixtla_client_forecast(df, h = 8, level = c(80,95)) # freq = "h"
 
 ## ----include=FALSE------------------------------------------------------------
 options(original_options)

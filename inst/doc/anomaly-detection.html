@@ -345,7 +345,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 detection</a></li>
 <li><a href="#load-data" id="toc-load-data">2. Load data</a></li>
 <li><a href="#detect-anomalies" id="toc-detect-anomalies">3. Detect
-anomalies</a></li>
+Anomalies</a></li>
 <li><a href="#plot-anomalies" id="toc-plot-anomalies">4. Plot
 anomalies</a></li>
 </ul>
@@ -366,7 +366,7 @@ remove, replace, or keep them.</p>
 <p><code>TimeGPT</code> has a method for detecting anomalies, and users
 can call it from <code>nixtlar</code>. This vignette will explain how to
 do this. It assumes you have already set up your API key. If you haven’t
-done this, please read the <a href="https://nixtla.github.io/nixtlar/articles/anomaly-detection.html">Get
+done this, please read the <a href="https://nixtla.github.io/nixtlar/articles/get-started.html">Get
 Started</a> vignette first.</p>
 </div>
 <div id="load-data" class="section level2">
@@ -385,18 +385,20 @@ five different electricity markets.</p>
 <span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co">#&gt; 6        BE 2016-10-22 05:00:00 35.61</span></span></code></pre></div>
 </div>
 <div id="detect-anomalies" class="section level2">
-<h2>3. Detect anomalies</h2>
+<h2>3. Detect Anomalies</h2>
 <p>To detect anomalies, use
-<code>nixtlar::nixtla_client_detect_anomalies</code>, which should
-include the following parameter:</p>
+<code>nixtlar::nixtla_client_detect_anomalies</code>, which requires the
+following parameter:</p>
 <ul>
-<li><strong>df</strong>: The time series data, either as a data frame, a
-tibble, or a tsibble. It should include at least a column with the
-timestamps and a column with the observations. Default names for these
-columns are <code>ds</code> and <code>y</code>. If different, please
-specify their names. If working with multiple series, you also need to
-include a column with unique identifiers. The default name for this
-column is <code>unique_id</code>.</li>
+<li><strong>df</strong>: The time series data, provided as a data frame,
+tibble, or tsibble. It must include at least two columns: one for the
+timestamps and one for the observations. The default names for these
+columns are <code>ds</code> and <code>y</code>. If your column names are
+different, specify them with <code>time_col</code> and
+<code>target_col</code>, respectively. If you are working with multiple
+series, you must also include a column with unique identifiers. The
+default name for this column is <code>unique_id</code>; if different,
+specify it with <code>id_col</code>.</li>
 </ul>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>nixtla_client_anomalies <span class="ot">&lt;-</span> nixtlar<span class="sc">::</span><span class="fu">nixtla_client_detect_anomalies</span>(df) </span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co">#&gt; Frequency chosen: h</span></span>
